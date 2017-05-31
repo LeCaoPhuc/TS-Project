@@ -3,18 +3,83 @@ import {Observable, EventData} from "data/observable";
 import { Page } from "ui/page";
 import {Image} from "ui/image";
 var http = require("http");
+import listViewModule = require("nativescript-telerik-ui/listview");
+import drawerModule = require("nativescript-telerik-ui/sidedrawer");
+import {XmlParser,ParserEvent,ParserEventType} from "tns-core-modules/xml";
+import {ObservableArray} from "tns-core-modules/data/observable-array";
+import timer = require("tns-core-modules/timer");
+var vm = new Observable();
+class DataItem {
+    public id: number;
+    public itemName;
+    public itemDescription;
 
- import {XmlParser,ParserEvent,ParserEventType} from "tns-core-modules/xml";
-let vm = new Observable();
-let logo:Image;
+    constructor(id: number, name: string, description: string) {
+        this.id = id;
+        this.itemName = name;
+        this.itemDescription = description;
+    }
+}
+
 class HomePage extends BasePage{
+        private _items: ObservableArray<DataItem>;
+        private _words = ["One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten"];
+        private _footerTitle;
+        private _headerTitle;
+        constructor() {
+            super();
+            this._footerTitle = "This is list footer";
+            this._headerTitle = "This is list header";
+        }
+
+        get dataItems() {
+            if (!this._items) {
+                this._items = new ObservableArray<DataItem>();
+
+                for (var i = 0; i < 10; i++) {
+                    this._items.push(new DataItem(i, "Item " + i, "This is item description."));
+                }
+            }
+            return this._items;
+        }
+
+        private getRandomLengthString(){
+            var sentenceLength = Math.round((Math.random() * 15));
+            var result = this._words[0];
+            for (var i = 0; i < sentenceLength; i++){
+                result += (this._words[i % this._words.length] + " ");
+            }
+            return result;
+        }
+         get headerTitle(){
+             return this._headerTitle;
+        }
+    
+        get footerTitle(){
+            return this._footerTitle;
+        }
+
     loaded(args:EventData){
-        vm.set("selectedPage", "home");
-        vm.set("text", "This is the home page");
+        // vm.set("selectedPage", "home");
+        var view = new HomePage();
+        // vm.set("text", "This is the home page");
+        // let page = <Page>args.object;
+        // logo = page.getViewById<Image>("logo");        
+        // page.bindingContext = vm;
+        // // Test API
         let page = <Page>args.object;
-        logo = page.getViewById<Image>("logo");        
-        page.bindingContext = vm;
-        // Test API
+        page.bindingContext = view;
+    }
+
+    fun(){        
+        // logo.animate({
+        //     rotate: 3600,
+        //     duration: 3000
+        // });
+    }
+    callapi()
+    { 
+        alert("s");
         http.request({
             url: "http://yakyo.innoria.com/xmlrpc/2/object",
             method: "POST",
@@ -68,16 +133,9 @@ class HomePage extends BasePage{
             // var tmp =  s.parse(result);
            
         //    console.log(tmp);
-           console.dir(response.toString()[0]);
+           console.log(response.content);
         }, function (e) {
             console.log("Error occurred " + e);
-        });
-
-    }    
-    fun(){        
-        logo.animate({
-            rotate: 3600,
-            duration: 3000
         });
     }
 }

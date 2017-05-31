@@ -1,7 +1,8 @@
-<page
+<!--<page
   class="page"
   xmlns="http://schemas.nativescript.org/tns.xsd"
   xmlns:drawer="nativescript-telerik-ui/sidedrawer"
+  xmlns:lv="nativescript-telerik-ui/listview"
   xmlns:widgets="shared/widgets"
   loaded="loaded"
   >
@@ -25,12 +26,46 @@
 
      <drawer:rad-side-drawer.mainContent>
      <!-- Home page contents -->
-      <stack-layout>
+      <!--<stack-layout>
         <image src="https://i.imgur.com/LY3cb3A.png" id="logo" tap="fun" height="100" margin="20 0 0 0" />
         <label class="h2 m-20 text-center" text="{{ text }}" />
-      </stack-layout>
-      </drawer:rad-side-drawer.mainContent>
+
+        <Button text="API" tap="callapi" />
+        <RadListView  text="{{ text }}" row="1" selectionBehavior="Press" multipleSelection="true">
 
   </drawer:rad-side-drawer>
 
+</page>-->
+	
+<page xmlns:navigation="navigation/example-page" 
+ xmlns:lv="nativescript-telerik-ui/listview" 
+ xmlns="http://www.nativescript.org/tns.xsd"
+ loaded="loaded">
+ <StackLayout orientation="horizontal">
+       <lv:RadListView items="{{ dataItems }}" >
+        <lv:RadListView.listViewLayout>
+            <lv:ListViewLinearLayout scrollDirection="Vertical"/>
+        </lv:RadListView.listViewLayout>
+        <lv:RadListView.itemTemplate>
+            <StackLayout orientation="vertical">
+                <Label fontSize="20" text="{{ itemName }}"/>
+                <Label fontSize="14" text="{{ itemDescription }}"/>
+            </StackLayout>
+        </lv:RadListView.itemTemplate>
+        <lv:RadListView.headerItemTemplate>
+      <GridLayout backgroundColor="#65a565">
+          <Label text="{{ headerTitle }}"/>
+      </GridLayout>
+    </lv:RadListView.headerItemTemplate>
+    <lv:RadListView.footerItemTemplate>
+      <GridLayout backgroundColor="#7fff7f">
+          <Label text="{{ footerTitle }}"/>
+      </GridLayout>
+    </lv:RadListView.footerItemTemplate>
+    </lv:RadListView>
+    
+ </StackLayout>
+   
 </page>
+
+
