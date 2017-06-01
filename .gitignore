@@ -9,6 +9,7 @@ tscommand*.tmp.txt
 node_modules/
 dist/
 package/
+platforms/
 
 *.js
 !tests/hooks/**/*.*
